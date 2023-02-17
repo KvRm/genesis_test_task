@@ -2,6 +2,7 @@
   <div class="base-dropdown" ref="dropdown">
     <button
       class="base-dropdown-toggle"
+      type="button"
       @click="isDropdownActive = !isDropdownActive"
       tabindex="1"
     >
