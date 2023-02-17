@@ -1,5 +1,5 @@
 <template>
-  <BaseForm>
+  <BaseForm @submit="handleForm">
     <template #header>
       <div class="form-header">
         <h1 class="form-title">Создать сущность</h1>
@@ -12,7 +12,7 @@
     </template>
     <template #footer>
       <div class="form-footer">
-        <BaseButton :disabled="isBtnDisabled" :loading="isBtnLoading" @click="handleBtn">
+        <BaseButton type="submit" :disabled="isBtnDisabled" :loading="isBtnLoading">
           Создать
         </BaseButton>
         <p class="form-error-msg">{{ errorMsg }}</p>
@@ -64,7 +64,7 @@
     leadsStore.clearError()
   }
 
-  async function handleBtn() {
+  async function handleForm() {
     if (isBtnDisabled.value || isBtnLoading.value) return
 
     cleatAllErrors()
@@ -100,7 +100,8 @@
   }
   .form-footer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 2rem;
     .form-error-msg {
       color: red;

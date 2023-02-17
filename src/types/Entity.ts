@@ -8,3 +8,5 @@ export interface EntityType {
   id: string
   name: string
 }
+
+export type EntityPostRequest = Array<{ name: string }>

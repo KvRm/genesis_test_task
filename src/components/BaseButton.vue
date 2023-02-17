@@ -1,6 +1,7 @@
 <template>
   <button
     class="base-btn"
+    :type="type || 'button'"
     :class="{ 'base-btn-disabled': disabled, 'base-btn-active': !disabled }"
     tabindex="1"
   >
@@ -17,6 +18,7 @@
   const props = defineProps<{
     disabled?: boolean
     loading?: boolean
+    type?: 'button' | 'reset' | 'submit'
   }>()
 </script>
 

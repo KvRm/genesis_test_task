@@ -17,12 +17,13 @@ export const useContactsStore = defineStore('constacts', () => {
           name: 'Здесь должно быть имя Контакта',
         },
       ])
+
       const newContactId = newContact[0].id as string
+
       const contact = await getContact(newContactId)
+
       if (contact) {
         constacts.value.push(contact)
-      } else {
-        throw new Error('Fail')
       }
     } catch (e) {
       if (e instanceof AxiosError) {

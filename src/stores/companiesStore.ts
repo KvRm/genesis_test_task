@@ -23,8 +23,6 @@ export const useCompaniesStore = defineStore('company', () => {
 
       if (company) {
         companies.value.push(company)
-      } else {
-        throw new Error('Fail')
       }
     } catch (e) {
       if (e instanceof AxiosError) {

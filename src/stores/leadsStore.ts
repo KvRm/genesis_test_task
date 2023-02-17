@@ -17,12 +17,13 @@ export const useLeadsStore = defineStore('leads', () => {
           name: 'Здесь должно быть имя Сделки',
         },
       ])
+
       const newContactId = newLead[0].id as string
+
       const contact = await getLead(newContactId)
+
       if (contact) {
         leads.value.push(contact)
-      } else {
-        throw new Error('Fail')
       }
     } catch (e) {
       if (e instanceof AxiosError) {
