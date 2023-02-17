@@ -23,6 +23,7 @@ export const useCompaniesStore = defineStore('company', () => {
 
       if (company) {
         companies.value.push(company)
+        saveCompaniesToSessionStorage()
       }
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -33,9 +34,25 @@ export const useCompaniesStore = defineStore('company', () => {
     }
   }
 
+  function saveCompaniesToSessionStorage() {
+    window.sessionStorage.setItem('companies', JSON.stringify(companies.value))
+  }
+
+  function getCompaniesFromSessionStorage() {
+    const sessionLeads = window.sessionStorage.getItem('companies')
+    if (sessionLeads) [(companies.value = JSON.parse(sessionLeads))]
+  }
+
   function clearError() {
     error.value = ''
   }
 
-  return { companies, addCompany, loading, error, clearError }
+  return {
+    companies,
+    addCompany,
+    loading,
+    error,
+    clearError,
+    getCompaniesFromSessionStorage,
+  }
 })

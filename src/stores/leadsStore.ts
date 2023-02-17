@@ -24,6 +24,7 @@ export const useLeadsStore = defineStore('leads', () => {
 
       if (contact) {
         leads.value.push(contact)
+        saveLeadsToSessionStorage()
       }
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -34,9 +35,18 @@ export const useLeadsStore = defineStore('leads', () => {
     }
   }
 
+  function saveLeadsToSessionStorage() {
+    window.sessionStorage.setItem('leads', JSON.stringify(leads.value))
+  }
+
+  function getLeadsFromSessionStorage() {
+    const sessionLeads = window.sessionStorage.getItem('leads')
+    if (sessionLeads) [(leads.value = JSON.parse(sessionLeads))]
+  }
+
   function clearError() {
     error.value = ''
   }
 
-  return { leads, addLead, loading, error, clearError }
+  return { leads, addLead, loading, error, clearError, getLeadsFromSessionStorage }
 })

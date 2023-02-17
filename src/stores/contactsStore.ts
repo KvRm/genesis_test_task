@@ -7,7 +7,7 @@ import { EntityType } from '../types/Entity'
 export const useContactsStore = defineStore('constacts', () => {
   const loading = ref<boolean>(false)
   const error = ref<string>('')
-  const constacts = ref<EntityType[]>([])
+  const contacts = ref<EntityType[]>([])
 
   async function addContact() {
     try {
@@ -23,7 +23,8 @@ export const useContactsStore = defineStore('constacts', () => {
       const contact = await getContact(newContactId)
 
       if (contact) {
-        constacts.value.push(contact)
+        contacts.value.push(contact)
+        saveContactsToSessionStorage()
       }
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -34,9 +35,25 @@ export const useContactsStore = defineStore('constacts', () => {
     }
   }
 
+  function saveContactsToSessionStorage() {
+    window.sessionStorage.setItem('contacts', JSON.stringify(contacts.value))
+  }
+
+  function getContactsFromSessionStorage() {
+    const sessionLeads = window.sessionStorage.getItem('contacts')
+    if (sessionLeads) [(contacts.value = JSON.parse(sessionLeads))]
+  }
+
   function clearError() {
     error.value = ''
   }
 
-  return { constacts, addContact, loading, error, clearError }
+  return {
+    contacts,
+    addContact,
+    loading,
+    error,
+    clearError,
+    getContactsFromSessionStorage,
+  }
 })

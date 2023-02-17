@@ -20,7 +20,7 @@
     </template>
   </BaseForm>
   <p class="table-title">Контакты:</p>
-  <BaseEntityTable class="entity-table" :entities="contactsStore.constacts" />
+  <BaseEntityTable class="entity-table" :entities="contactsStore.contacts" />
 
   <p class="table-title">Сделки:</p>
   <BaseEntityTable class="entity-table" :entities="leadsStore.leads" />
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import BaseButton from '../components/BaseButton.vue'
   import BaseDropdown from '../components/BaseDropdown.vue'
   import BaseForm from '../components/BaseForm.vue'
@@ -57,6 +57,16 @@
   const isBtnDisabled = computed<boolean>(
     () => currentEntity.value === NOT_SELECTED_ENTITY
   )
+
+  onMounted(() => {
+    loadAllEntitiesFromSessionStorage()
+  })
+
+  function loadAllEntitiesFromSessionStorage() {
+    leadsStore.getLeadsFromSessionStorage()
+    companiesStore.getCompaniesFromSessionStorage()
+    contactsStore.getContactsFromSessionStorage()
+  }
 
   function cleatAllErrors() {
     contactsStore.clearError()
