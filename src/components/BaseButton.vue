@@ -4,6 +4,7 @@
     :type="type || 'button'"
     :class="{ 'base-btn-disabled': disabled, 'base-btn-active': !disabled }"
     tabindex="1"
+    :disabled="disabled"
   >
     <div class="base-btn-content" v-if="!loading">
       <slot />
