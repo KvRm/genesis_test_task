@@ -89,6 +89,7 @@
   .base-dropdown {
     .base-dropdown-toggle {
       display: flex;
+      position: relative;
       justify-content: space-between;
       width: 100%;
       min-height: 32px;
@@ -103,7 +104,7 @@
       }
     }
     .base-dropdown-list {
-      position: fixed;
+      position: absolute;
       margin-top: 0.3rem;
       background: #fff;
       border: 1px solid var(--text-color-gray);
