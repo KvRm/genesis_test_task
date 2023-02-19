@@ -81,15 +81,15 @@
 
     switch (currentEntity.value) {
       case EntityEnum.Contact: {
-        contactsStore.addContact()
+        contactsStore.addContact('Здесь должно быть имя Контакта')
         break
       }
       case EntityEnum.Company: {
-        companiesStore.addCompany()
+        companiesStore.addCompany('Здесь должно быть имя Компании')
         break
       }
       case EntityEnum.Lead: {
-        leadsStore.addLead()
+        leadsStore.addLead('Здесь должно быть имя Сделки')
         break
       }
     }

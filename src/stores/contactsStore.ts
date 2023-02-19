@@ -1,35 +1,26 @@
-import { AxiosError } from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { createContact, getContact } from '../api/requests/contacts'
+import { createContact } from '../api/requests/contacts'
+import { useTypeChecker } from '../lib/useTypeChecker'
 import { EntityType } from '../types/Entity'
 
 export const useContactsStore = defineStore('constacts', () => {
+  const { isEntityType } = useTypeChecker()
+
   const loading = ref<boolean>(false)
   const error = ref<string>('')
   const contacts = ref<EntityType[]>([])
 
-  async function addContact() {
+  async function addContact(name: string) {
     try {
       loading.value = true
-      const newContact = await createContact([
-        {
-          name: 'Здесь должно быть имя Контакта',
-        },
-      ])
-
+      const newContact = await createContact([{ name }])
       const newContactId = newContact[0].id as string
 
-      const contact = await getContact(newContactId)
-
-      if (contact) {
-        contacts.value.push(contact)
-        saveContactsToSessionStorage()
-      }
+      contacts.value.push({ id: newContactId, name })
+      saveContactsToSessionStorage()
     } catch (e) {
-      if (e instanceof AxiosError) {
-        error.value = e.message
-      }
+      error.value = 'Не удалось создать Контакт'
     } finally {
       loading.value = false
     }
@@ -40,8 +31,10 @@ export const useContactsStore = defineStore('constacts', () => {
   }
 
   function getContactsFromSessionStorage() {
-    const sessionLeads = window.sessionStorage.getItem('contacts')
-    if (sessionLeads) [(contacts.value = JSON.parse(sessionLeads))]
+    const sessionContacts = window.sessionStorage.getItem('contacts')
+    if (sessionContacts && isEntityType(JSON.parse(sessionContacts)?.[0])) {
+      contacts.value = JSON.parse(sessionContacts)
+    }
   }
 
   function clearError() {
